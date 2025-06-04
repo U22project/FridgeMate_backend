@@ -1,0 +1,14 @@
+仮想環境の構築、更新手順
+
+＊構築
+1. gitから“environment.yml”をダウンロード
+2. conda env create -f environment.ymlへのリンク
+3. conda activate paiza
+
+＊更新
+1. gitから“environment.yml”をダウンロード
+2. conda env update -f environment.ymlへのリンク --prune
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+＊環境のコピー
+conda env export > %USERPROFILE%\Downloads\environment.yml

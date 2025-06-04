@@ -1,0 +1,7 @@
+データベースの環境構築
+１．＊＊dump.sqlファイルをダウンロードする
+２. mysql -u root -p password dbname < ＊＊dump.sqlへのリンク
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+ダンプの仕方
+mysqldump -u root -p dbname --result-file=%USERPROFILE%\Downloads\＊＊dump.sql
