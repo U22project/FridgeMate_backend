@@ -1,13 +1,13 @@
 from flask import Flask,request,jsonify
 import base64
 import io
-from google.cloud import vision
+# from google.cloud import vision
 from PIL import Image
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 # from api.gemini_api import extract_food_items_from_text
 
-load_dotenv()
+# load_dotenv()
 
 app = Flask(__name__)
 
