@@ -42,7 +42,7 @@ def ocr_image():
 
         # 認識された全テキスト
         full_text = response.full_text_annotation.text
-        # print("Full text detected:", full_text)
+        print("Full text detected:", full_text)
         return jsonify({"text": full_text.strip()})
 
     except Exception as e:
@@ -61,12 +61,69 @@ def filter_text():
 
     try:
         cleaned = extract_food_items_from_text(ocr_text)
+        print("📤 抽出された食材:", cleaned)
         return jsonify({"cleaned_text": cleaned})
     except Exception as e:
         print("❌ 処理中にエラー:", e)
         return jsonify({"error": str(e)}), 500
     
     
+#! test用のエンドポイント
+@app.route("/test_ocr", methods=["post"])
+def test_endpoint():
+    return jsonify({"text": 
+        """
+    領収証
+FEEL
+生店
+052-482-7676
+登録番号
+ご来店、誠にありがとうございます
+2025年06月27日 (金) 17:55 レジ0001
+青 No00000084 天野
+*カップヌードルチリトマト ¥178
+*北海道チーズのささみフラ ¥280
+*燻製屋ポークウインナー ¥258
+#!未来のレモンサワー オ ¥268
+*いいたまごMサイズ 6コ入 ¥188
+小計
+¥1,172
+(外8%
+タイショウ
+¥904)
+外8%
+#72
+(外10%
+タイショウ
+¥268)
+外10%
+¥26
+外税計
+¥98
+ご利用日
+(税合計
+合計
+クイックペイ
+お買上点数
+5点
+******** QUICPay 支払 *** ***
+端末番号
+65063-007-00001
+2025/06/27 17:57:46
+¥98)
+¥1,270
+¥1.270
+ELE
+"""})
+
+# !test用のエンドポイント2
+@app.route("/test_filter", methods=["post"])
+def test_filter():
+    return jsonify({
+        "cleaned_text": """
+        燻製屋ポークウインナー
+いいたまごMサイズ 6コ入
+"""})
     
     
 if __name__ == "__main__":
