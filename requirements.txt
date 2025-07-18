@@ -3,3 +3,4 @@ google-cloud-vision
 pillow
 python-dotenv
 google-generativeai
+mysql-connector-python
