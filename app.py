@@ -4,6 +4,7 @@ import io
 # from google.cloud import vision
 from PIL import Image
 import os
+from config import get_db_connection
 # from dotenv import load_dotenv
 # from api.gemini_api import extract_food_items_from_text
 
@@ -13,7 +14,20 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "hello"
+    # conn = get_db_connection()
+    # if conn:
+    #     cursor = conn.cursor(dictionary=True)
+    #     query = """
+    #         SELECT * FROM t_inventory
+    #         """
+    #     cursor.execute(query)
+    #     data = cursor.fetchall()
+    #     cursor.close()
+    #     conn.close()
+    # else:   
+    #     # return "Database connection error", 500
+    #     return jsonify({"error": "Database connection error"}), 500
+    return "hello world"
 
 
 # Google Cloud 認証キーのパス
