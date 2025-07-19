@@ -1,5 +1,12 @@
-dbname >>  2025u22
-table  >>  t_inventory 
-	    |-id >>int/AI
-            |-ingredients >>ver/255  
-            |-add_date >>date(yyyy/mm/dd)
+db設計
+db名　2025u22
+インベントリーテーブル
+　｜ーid(主キー・自動生成)
+　｜ー食材
+　｜ー追加日
+
+2025u22
+　|-t_inventory 
+	  |-id          >>int/AI
+      |-ingredients >>ver/255  
+      |-add_date    >>date(yyyy/mm/dd)
