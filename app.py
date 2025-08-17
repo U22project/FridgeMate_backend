@@ -7,6 +7,9 @@ import os
 from config import get_db_connection
 # from dotenv import load_dotenv
 # from api.gemini_api import extract_food_items_from_text
+from config import get_db_connection, db_config
+import mysql.connector
+import datetime
 
 # load_dotenv()
 
@@ -139,6 +142,31 @@ def test_filter():
 いいたまごMサイズ 6コ入
 """})
     
+@app.route('/add_food_items', methods=['POST'])
+def add_food_items():
+    items = request.get_json()
+    if not isinstance(items, list):
+        return jsonify({'error': 'Invalid data'}), 400
+
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    now = datetime.date.today()
+    for item in items:
+        cursor.execute("INSERT INTO t_inventory (ingredients, add_date) VALUES (%s, %s)", (item, now))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({'status': 'success'})
+    
+@app.route('/get_food_items', methods=['GET'])
+def get_food_items():
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    cursor.execute("SELECT ingredients FROM t_inventory")
+    items = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    conn.close()
+    return jsonify(items)
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
