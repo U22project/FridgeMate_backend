@@ -25,9 +25,11 @@ DROP TABLE IF EXISTS `t_inventory`;
 CREATE TABLE `t_inventory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `ingredients` varchar(255) NOT NULL,
+  `quantity` int NOT NULL,
+  `expiration_date` varchar(5) DEFAULT NULL,
   `add_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +39,6 @@ CREATE TABLE `t_inventory` (
 LOCK TABLES `t_inventory` WRITE;
 /*!40000 ALTER TABLE `t_inventory` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_inventory` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-19 22:14:47
+-- Dump completed on 2025-08-23 19:17:50

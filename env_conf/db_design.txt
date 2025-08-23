@@ -3,10 +3,16 @@ db名　2025u22
 インベントリーテーブル
 　｜ーid(主キー・自動生成)
 　｜ー食材
+　｜ー個数
+　｜ー賞味期限
 　｜ー追加日
+
 
 2025u22
 　|-t_inventory 
 	  |-id          >>int/AI
-      |-ingredients >>ver/255  
+      |-ingredients >>ver/255
+      |-quantity    >>int
+      |-expiration_date >>ver/5
       |-add_date    >>date(yyyy/mm/dd)
+
