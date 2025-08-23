@@ -151,8 +151,17 @@ def add_food_items():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
     now = datetime.date.today()
+
     for item in items:
-        cursor.execute("INSERT INTO t_inventory (ingredients, add_date) VALUES (%s, %s)", (item, now))
+        ingredients = item.get("name")
+        expiration_date = item.get("expireDate", None)
+        quantity = item.get("quantity", 1)
+
+        cursor.execute(
+            "INSERT INTO t_inventory (ingredients, expiration_date, quantity, add_date) VALUES (%s, %s, %s, %s)",
+            (ingredients, expiration_date, quantity, now)
+        )
+
     conn.commit()
     cursor.close()
     conn.close()
