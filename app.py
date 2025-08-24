@@ -206,11 +206,14 @@ def delete_food_item():
 def expiring_soon():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
+    # 今日以降のデータを対象、近い順に並べる
     cursor.execute("""
-        SELECT name, expiration_date FROM t_inventory
-        WHERE expiration_date IS NOT NULL
-        ORDER BY STR_TO_DATE(expiration_date, '%m/%d') ASC
-        LIMIT 5
+        SELECT name, expire_date
+        FROM food_items
+        WHERE expire_date IS NOT NULL
+        AND STR_TO_DATE(expire_date, '%m/%d') >= STR_TO_DATE(DATE_FORMAT(CURDATE(), '%m/%d'), '%m/%d')
+        ORDER BY STR_TO_DATE(expire_date, '%m/%d') ASC
+        LIMIT 5;
     """)
     items = cursor.fetchall()
     cursor.close()
