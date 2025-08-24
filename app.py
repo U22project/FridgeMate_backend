@@ -379,12 +379,12 @@ def expiring_soon():
     cursor = conn.cursor(dictionary=True)
     # 今日以降のデータを対象、近い順に並べる
     cursor.execute("""
-        SELECT ingredients, expiration_date
-        FROM t_inventory
-        WHERE expiration_date IS NOT NULL
-        AND STR_TO_DATE(expiration_date, '%m/%d') >= STR_TO_DATE(DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 DAY), '%m/%d'), '%m/%d')
-        AND STR_TO_DATE(expiration_date, '%m/%d') <= STR_TO_DATE(DATE_FORMAT(CURDATE(), '%m/%d'), '%m/%d')
-        ORDER BY STR_TO_DATE(expiration_date, '%m/%d') DESC;
+SELECT ingredients, expiration_date
+FROM t_inventory
+WHERE expiration_date IS NOT NULL
+  AND STR_TO_DATE(expiration_date, '%m/%d') >= STR_TO_DATE(DATE_FORMAT(CURDATE(), '%m/%d'), '%m/%d')
+  AND STR_TO_DATE(expiration_date, '%m/%d') <= STR_TO_DATE(DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 3 DAY), '%m/%d'), '%m/%d')
+ORDER BY STR_TO_DATE(expiration_date, '%m/%d') ASC;
 
     """)
     items = cursor.fetchall()
