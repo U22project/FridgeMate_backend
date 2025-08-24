@@ -103,11 +103,19 @@ def add_food_items():
 def get_food_items():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()
-    cursor.execute("SELECT ingredients FROM t_inventory")
-    items = [row[0] for row in cursor.fetchall()]
+    cursor.execute("SELECT ingredients, expiration_date, quantity FROM t_inventory")
+    items = [
+        {
+            "ingredients": row[0],
+            "expiration_date": row[1],
+            "quantity": row[2]
+        }
+        for row in cursor.fetchall()
+    ]
     cursor.close()
     conn.close()
     return jsonify(items)
+
 
 @app.route("/get_recipe_categories", methods=["GET"])
 def get_recipe_categories():
@@ -275,6 +283,45 @@ def search_random_recipes():
 
 # ✅ アプリ起動時に1度だけ実行
 fetch_and_store_rakuten_categories_once()
+
+
+@app.route('/delete_food_item', methods=['POST'])
+def delete_food_item():
+    data = request.get_json()
+    ingredients = data.get("ingredients")
+    expiration_date = data.get("expiration_date")
+    quantity = data.get("quantity")
+
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+    cursor.execute(
+        "DELETE FROM t_inventory WHERE ingredients=%s AND expiration_date=%s AND quantity=%s",
+        (ingredients, expiration_date, quantity)
+    )
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({"result": "success"})
+
+@app.route('/expiring_soon')
+def expiring_soon():
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor(dictionary=True)
+    # 今日以降のデータを対象、近い順に並べる
+    cursor.execute("""
+        SELECT ingredients, expiration_date
+        FROM t_inventory
+        WHERE expiration_date IS NOT NULL
+        AND STR_TO_DATE(expiration_date, '%m/%d') >= STR_TO_DATE(DATE_FORMAT(CURDATE(), '%m/%d'), '%m/%d')
+        ORDER BY STR_TO_DATE(expiration_date, '%m/%d') ASC
+        LIMIT 5;
+    """)
+    items = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return jsonify(items)
+
+    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
