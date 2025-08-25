@@ -190,12 +190,11 @@ def get_food_items():
 @app.route("/get_recipe_categories", methods=["GET"])
 def get_recipe_categories():
     try:
-        print("✅ /get_recipe_categories にアクセスがありました")  # ←これが出るはず
+        print("✅ /get_recipe_categories にアクセスがありました") 
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT category_id, category_name FROM recipe_categories")
         results = cursor.fetchall()
-        print(f"📦 取得カテゴリ件数: {len(results)}")
         cursor.close()
         conn.close()
         return jsonify(results)
