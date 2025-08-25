@@ -1,4 +1,4 @@
-print(f"🔥 Flask 実行開始: {__file__}")
+
 
 from flask import Flask, request, jsonify
 import base64
